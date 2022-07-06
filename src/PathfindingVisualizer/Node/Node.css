@@ -1,0 +1,27 @@
+.node-simple {
+      width: 1.5vw;
+      height: 1.5vw;
+      background-color: #ffffff;
+      border: 2px solid #1e1f26;
+      display: inline-block;
+}
+
+.node-start {
+      background-color: #d0e1f9;
+}
+
+.node-end {
+      background-color: #d0e1f9;
+}
+
+.node-wall {
+      background-color: #1e1f26;
+}
+
+.node-visited {
+      background-color: #4d648d;
+}
+
+.node-shortest-path {
+      background-color: #283655;
+}
