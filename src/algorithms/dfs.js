@@ -44,5 +44,6 @@ export function pathGeneratorDfs(grid, ei, ej) {
             [ni, nj] = grid[ni][nj].previous;
       }
 
+      found = false;
       return path;
 }
