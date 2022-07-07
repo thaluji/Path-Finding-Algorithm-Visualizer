@@ -1,12 +1,16 @@
 import React, { useState, useEffect } from 'react';
+
 import Node from './Node/Node';
-import { dijkstra, pathGeneratorDijkstra } from '../algorithms/dijkstra';
-import { dfs, pathGeneratorDfs } from '../algorithms/dfs';
+
+import { visualizeDijkstra } from './animations/animateDijkstra'
+import { visualizeDepthFirstSearch } from './animations/animateDepthFirstSearch'
+import { visualizeBreadthFirstSearch } from './animations/animateBreadthFirstSearch'
+
 import './PathfindingVisualizer.css';
 
 
 const rowCount = 20, columnCount = 50;
-// const rowCount = 5, columnCount = 5;
+// const rowCount = 40, columnCount = 100;
 const startRow = 0, startColumn = 0;
 const endRow = rowCount - 1, endColumn = columnCount - 1;
 
@@ -45,64 +49,6 @@ const PathfindingVisualizer = () => {
             this.previous = [-1, -1];
       }
 
-      const animateDijkstra = (visitedNodesInOrder, nodesInShortestPathOrder) => {
-            for (let i = 0; i <= visitedNodesInOrder.length; i++) {
-                  if (i === visitedNodesInOrder.length) {
-                        setTimeout(() => {
-                              animateShortestPath(nodesInShortestPathOrder);
-                        }, 10 * i);
-                        return;
-                  }
-                  setTimeout(() => {
-                        const [ni, nj] = visitedNodesInOrder[i];
-                        document.getElementById(`${ni}-${nj}`).className = 'node-simple node-visited';
-                  }, 10 * i);
-            }
-      }
-
-      const animateShortestPath = (nodesInShortestPathOrder) => {
-            for (let i = 0; i < nodesInShortestPathOrder.length; i++) {
-                  setTimeout(() => {
-                        const [ni, nj] = nodesInShortestPathOrder[i];
-                        document.getElementById(`${ni}-${nj}`).className = 'node-simple node-shortest-path';
-                  }, 50 * i);
-            }
-      }
-
-      const visualizeDijkstra = () => {
-            const grid = Grid;
-            const visitedNodesInOrder = dijkstra(grid, startRow, startColumn, endRow, endColumn);
-            const nodesInShortestPathOrder = pathGeneratorDijkstra(grid, endRow, endColumn);
-
-            animateDijkstra(visitedNodesInOrder, nodesInShortestPathOrder);
-      }
-
-      const visualizeDepthFirstSearch = () => {
-            const grid = Grid;
-            const nodeVisitingOrder = dfs(grid, startRow, startColumn, endRow, endColumn);
-            animateDepthFirstSearch(grid, nodeVisitingOrder);
-      }
-
-      const animateDepthFirstSearch = (grid, nodeVisitingOrder) => {
-            for (let i = 0; i < nodeVisitingOrder.length; i++) {
-                  setTimeout(() => {
-                        const [x, y] = nodeVisitingOrder[i];
-                        document.getElementById(`${x}-${y}`).className = 'node-simple node-visited';
-                  }, 10 * i);
-            }
-
-            setTimeout(() => {
-                  var nodesInPath = pathGeneratorDfs(grid, endRow, endColumn);
-
-                  for (let i = 0; i < nodesInPath.length; i++) {
-                        setTimeout(() => {
-                              const [ni, nj] = nodesInPath[i];
-                              document.getElementById(`${ni}-${nj}`).className = 'node-simple node-shortest-path';
-                        }, 50 * i);
-                  }
-            }, 10 * nodeVisitingOrder.length);
-      }
-
       const gridWithNode = (
             <div>
                   {Grid.map((row, rowIndex) => {
@@ -120,13 +66,81 @@ const PathfindingVisualizer = () => {
             </div>
       );
 
+      const gridReset = (random) => {
+            for (let i = 0; i < rowCount; i++) {
+                  for (let j = 0; j < columnCount; j++) {
+                        Grid[i][j].isVisited = false;
+                        Grid[i][j].previous = [-1, -1];
+
+                        if (Grid[i][j].isStart) {
+                              document.getElementById(`${i}-${j}`).className = 'node-simple node-start';
+                        }
+                        else if (Grid[i][j].isEnd) {
+                              document.getElementById(`${i}-${j}`).className = 'node-simple node-end';
+                        }
+                        else if (Grid[i][j].isWall) {
+                              if (random) {
+                                    let isStart = (i == startRow) && (j == startColumn);
+                                    let isEnd = (i == endRow) && (j == endColumn);
+
+                                    let isWall = ((Math.floor(Math.random() * 4)) === 0 && !(isStart || isEnd));
+
+                                    Grid[i][j].isWall = isWall;
+                                    if (isWall) document.getElementById(`${i}-${j}`).className = 'node-simple node-wall';
+                                    else document.getElementById(`${i}-${j}`).className = 'node-simple';
+                              }
+                              else {
+                                    document.getElementById(`${i}-${j}`).className = 'node-simple node-wall';
+                              }
+                        }
+                        else {
+                              if (random) {
+                                    let isStart = (i == startRow) && (j == startColumn);
+                                    let isEnd = (i == endRow) && (j == endColumn);
+
+                                    let isWall = ((Math.floor(Math.random() * 4)) === 0 && !(isStart || isEnd));
+
+                                    Grid[i][j].isWall = isWall;
+                                    if (isWall) document.getElementById(`${i}-${j}`).className = 'node-simple node-wall';
+                                    else document.getElementById(`${i}-${j}`).className = 'node-simple';
+                              }
+                              else {
+                                    document.getElementById(`${i}-${j}`).className = 'node-simple';
+                              }
+                        }
+                  }
+            }
+      }
+
       return (
             <>
                   <header>
                         <h1>PathFinder Visualization</h1>
-                        <button style={{ right: '50px' }} onClick={() => visualizeDijkstra()}>Dijkstra's Algorithm</button>
-                        <button style={{ right: '250px' }} onClick={() => visualizeDepthFirstSearch()}>Depth First Search</button>
+                        <div className='resetButtons'>
+                              <button className="resetbutton" id='rst' style={{ left: '725px' }}
+                                    onClick={() => gridReset(false)}>
+                                    Reset Grid
+                              </button>
+                              <button className="resetbutton" id='rst' style={{ left: '705px', top: '30px' }}
+                                    onClick={() => gridReset(true)}>
+                                    Randomize Grid
+                              </button>
+                        </div>
+
+                        <button className="button" id='dij' style={{ right: '30px' }}
+                              onClick={() => visualizeDijkstra(Grid, startRow, startColumn, endRow, endColumn)}>
+                              Dijkstra's Algorithm
+                        </button>
+                        <button className="button" id='dfs' style={{ right: '190px' }}
+                              onClick={() => visualizeDepthFirstSearch(Grid, startRow, startColumn, endRow, endColumn)}>
+                              Depth First Search
+                        </button>
+                        <button className="button" id='bfs' style={{ right: '350px' }}
+                              onClick={() => visualizeBreadthFirstSearch(Grid, startRow, startColumn, endRow, endColumn)}>
+                              Breadth First Search
+                        </button>
                   </header>
+                  <hr style={{ color: "yellow" }}></hr>
                   <body>
                         <div className='matrix'>
                               {gridWithNode}

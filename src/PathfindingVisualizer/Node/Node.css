@@ -1,27 +1,43 @@
+/*
+lightest blue: #66D7EB
+blue 2: #51ACC5
+blue 3: #3e849e
+blue 4: #2c5f78
+blue 5: #1c33d52
+dark blue: #0e1e2b
+black : #010305
+*/
+
 .node-simple {
       width: 1.5vw;
       height: 1.5vw;
-      background-color: #ffffff;
-      border: 2px solid #1e1f26;
+      border: 2px solid #0e1e2b;
+
+      /* width : 0.75vw; */
+      /* height : 0.75vw; */
+      /* border: 1px solid #0e1e2b; */
+
+      background-color: #fcfcfd;
       display: inline-block;
 }
 
+.node-visited {
+      background-color: #2c5f78;
+}
+
 .node-start {
-      background-color: #d0e1f9;
+      background-color: #66D7EB;
 }
 
 .node-end {
-      background-color: #d0e1f9;
+      background-color: #66D7EB;
 }
 
 .node-wall {
-      background-color: #1e1f26;
-}
-
-.node-visited {
-      background-color: #4d648d;
+      background-color: #0e1e2b;
 }
 
 .node-shortest-path {
+      /* background-color: #; */
       background-color: #FBA92C;
 }
