@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import Node from './Node/Node';
-import { dijkstra, pathGenerator } from '../algorithms/dijkstra';
+import { dijkstra, pathGeneratorDijkstra } from '../algorithms/dijkstra';
 import { dfs, pathGeneratorDfs } from '../algorithms/dfs';
 import './PathfindingVisualizer.css';
 
 
 const rowCount = 20, columnCount = 50;
+// const rowCount = 5, columnCount = 5;
 const startRow = 0, startColumn = 0;
 const endRow = rowCount - 1, endColumn = columnCount - 1;
 
@@ -44,8 +45,6 @@ const PathfindingVisualizer = () => {
             this.previous = [-1, -1];
       }
 
-      console.log(Grid);
-
       const animateDijkstra = (visitedNodesInOrder, nodesInShortestPathOrder) => {
             for (let i = 0; i <= visitedNodesInOrder.length; i++) {
                   if (i === visitedNodesInOrder.length) {
@@ -73,12 +72,7 @@ const PathfindingVisualizer = () => {
       const visualizeDijkstra = () => {
             const grid = Grid;
             const visitedNodesInOrder = dijkstra(grid, startRow, startColumn, endRow, endColumn);
-            const nodesInShortestPathOrder = pathGenerator(grid, endRow, endColumn);
-
-            // console.log("dijkstra performed\n");
-            // console.log(visitedNodesInOrder);
-            // console.log(grid);
-            // console.log(nodesInShortestPathOrder);
+            const nodesInShortestPathOrder = pathGeneratorDijkstra(grid, endRow, endColumn);
 
             animateDijkstra(visitedNodesInOrder, nodesInShortestPathOrder);
       }
