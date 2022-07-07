@@ -7,8 +7,6 @@ export function dfs(grid, si, sj, ei, ej) {
       var nodeVisitingOrder = [];
       dfs_helper(grid, si, sj, ei, ej, -1, -1, nodeVisitingOrder, visitedArray);
 
-      console.log("dfs successful\n");
-      console.log(grid);
       return nodeVisitingOrder;
 }
 
@@ -46,6 +44,5 @@ export function pathGeneratorDfs(grid, ei, ej) {
             [ni, nj] = grid[ni][nj].previous;
       }
 
-      console.log(path);
       return path;
 }
