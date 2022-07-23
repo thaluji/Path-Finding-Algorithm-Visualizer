@@ -2,9 +2,10 @@ import React, { useState, useEffect } from 'react';
 
 import Node from './Node/Node';
 
-import { visualizeDijkstra } from './animations/animateDijkstra'
-import { visualizeDepthFirstSearch } from './animations/animateDepthFirstSearch'
-import { visualizeBreadthFirstSearch } from './animations/animateBreadthFirstSearch'
+// import { visualizeDijkstra } from './animations/animateDijkstra'
+// import { visualizeDepthFirstSearch } from './animations/animateDepthFirstSearch'
+import { visualize } from './animations/animateDepthFirstSearchRandom'
+// import { visualizeBreadthFirstSearch } from './animations/animateBreadthFirstSearch'
 
 import './PathfindingVisualizer.css';
 
@@ -128,15 +129,19 @@ const PathfindingVisualizer = () => {
                         </div>
 
                         <button className="button" id='dij' style={{ right: '30px' }}
-                              onClick={() => visualizeDijkstra(Grid, startRow, startColumn, endRow, endColumn)}>
+                              onClick={() => visualize(Grid, startRow, startColumn, endRow, endColumn, "dijkstra")}>
                               Dijkstra's Algorithm
                         </button>
                         <button className="button" id='dfs' style={{ right: '190px' }}
-                              onClick={() => visualizeDepthFirstSearch(Grid, startRow, startColumn, endRow, endColumn)}>
+                              onClick={() => visualize(Grid, startRow, startColumn, endRow, endColumn, "dfs")}>
                               Depth First Search
                         </button>
-                        <button className="button" id='bfs' style={{ right: '350px' }}
-                              onClick={() => visualizeBreadthFirstSearch(Grid, startRow, startColumn, endRow, endColumn)}>
+                        <button className="button" id='dfs' style={{ right: '350px' }}
+                              onClick={() => visualize(Grid, startRow, startColumn, endRow, endColumn, "dfsRandom")}>
+                              Depth First Search Random
+                        </button>
+                        <button className="button" id='bfs' style={{ right: '500px' }}
+                              onClick={() => visualize(Grid, startRow, startColumn, endRow, endColumn, "bfs")}>
                               Breadth First Search
                         </button>
                   </header>
