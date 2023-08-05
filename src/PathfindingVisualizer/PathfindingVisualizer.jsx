@@ -98,7 +98,7 @@ const PathfindingVisualizer = () => {
                               if (random) {
                                     let isStart = (i == startRow) && (j == startColumn);
                                     let isEnd = (i == endRow) && (j == endColumn);
-
+                                          
                                     let isWall = ((Math.floor(Math.random() * 4)) === 0 && !(isStart || isEnd));
 
                                     Grid[i][j].isWall = isWall;
